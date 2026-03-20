@@ -1234,7 +1234,7 @@
         <p class="form-subtitle">We'll get back to you within 24 hours.</p>
 
         <div id="contact-form-inner">
-<form action="https://formspree.io/f/mbdzbwoy" method="POST">
+<form id="aurabloom-form" action="https://formspree.io/f/mbdzbwoy" method="POST">
           <div class="form-row">
             <div class="form-group">
               <label>First name</label>
@@ -1263,6 +1263,7 @@
             <textarea name="message" placeholder="Tell us how we can help..."></textarea>
           </div>
           <button type="submit" class="form-submit">Send Message</button>
+<input type="hidden" name="_next" value="false">
         </form>
         </div>
         <div class="form-success" id="form-success">
@@ -1313,10 +1314,19 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   // Form submit
-  function submitForm() {
-    document.getElementById('contact-form-inner').style.display = 'none';
-    const success = document.getElementById('form-success');
-    success.style.display = 'block';
+  const form = document.getElementById('aurabloom-form');
+  if(form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      await fetch('https://formspree.io/f/mbdzbwoy', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      document.getElementById('contact-form-inner').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    });
   }
 
   // Add to cart feedback
