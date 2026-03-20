@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurabloom Creations — Handmade Candles</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5EFE0;
+    --warm-white: #FBF7EF;
+    --bark: #5C3D2E;
+    --bark-light: #7D5545;
+    --amber: #C8853A;
+    --amber-light: #E6A855;
+    --smoke: #9B8E82;
+    --charcoal: #2C1F17;
+    --blush: #E8C9A0;
+    --sage: #8A9E7A;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Lora', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--charcoal);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(251,247,239,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(92,61,46,0.1);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(44,31,23,0.08); }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    color: var(--bark);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    font-style: italic;
+  }
+  .nav-logo span { font-style: normal; font-weight: 600; }
+
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--smoke);
+    font-size: 0.88rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--bark); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 75% 50%, rgba(200,133,58,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(138,158,122,0.1) 0%, transparent 60%);
+  }
+
+  /* Decorative wax drip lines */
+  .drip-decoration {
+    position: absolute;
+    top: 0; right: 15%;
+    width: 2px;
+    height: 45%;
+    background: linear-gradient(to bottom, var(--blush), transparent);
+    opacity: 0.6;
+  }
+  .drip-decoration::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: -3px;
+    width: 8px; height: 14px;
+    background: var(--blush);
+    border-radius: 50% 50% 60% 60%;
+    opacity: 0.7;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 3rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-text { }
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--amber);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5.5vw, 5.2rem);
+    line-height: 1.1;
+    color: var(--bark);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: var(--smoke);
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--bark);
+    color: var(--cream);
+    padding: 0.9rem 2.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+    transition: background 0.25s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--bark-light); transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--bark);
+    padding: 0.9rem 2.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+    border: 1.5px solid var(--bark);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { background: var(--bark); color: var(--cream); }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* Candle illustration */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .candle-scene {
+    position: relative;
+    width: 260px;
+    height: 380px;
+  }
+
+  .candle-glow {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 260px;
+    background: radial-gradient(ellipse at 50% 70%, rgba(230,168,85,0.35) 0%, transparent 70%);
+    animation: glow-pulse 3s ease-in-out infinite;
+    border-radius: 50%;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+  }
+
+  .candle-body {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 200px;
+    background: linear-gradient(135deg, #EDE0C8 0%, #D4C5A9 40%, #C4B090 100%);
+    border-radius: 4px 4px 6px 6px;
+    box-shadow: inset -8px 0 16px rgba(0,0,0,0.08), 4px 8px 24px rgba(44,31,23,0.2);
+  }
+
+  .candle-label {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 70px;
+    background: rgba(251,247,239,0.9);
+    border: 0.5px solid rgba(92,61,46,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    text-align: center;
+    color: var(--bark);
+    font-style: italic;
+    line-height: 1.4;
+    padding: 6px;
+  }
+
+  .candle-wick {
+    position: absolute;
+    bottom: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 18px;
+    background: var(--charcoal);
+    border-radius: 2px;
+  }
+
+  .flame {
+    position: absolute;
+    bottom: 237px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 22px;
+    background: linear-gradient(to top, #E6A855, #F5C842, rgba(255,230,100,0.3));
+    border-radius: 50% 50% 30% 30%;
+    animation: flicker 1.8s ease-in-out infinite;
+    filter: blur(0.5px);
+  }
+  .flame::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 10px;
+    background: rgba(255,255,200,0.8);
+    border-radius: 50%;
+    filter: blur(1px);
+  }
+
+  @keyframes flicker {
+    0%, 100% { transform: translateX(-50%) scaleX(1) scaleY(1); opacity: 1; }
+    25% { transform: translateX(-52%) scaleX(0.9) scaleY(1.05); opacity: 0.95; }
+    50% { transform: translateX(-48%) scaleX(1.05) scaleY(0.98); opacity: 1; }
+    75% { transform: translateX(-51%) scaleX(0.95) scaleY(1.03); opacity: 0.97; }
+  }
+
+  /* Floating candles */
+  .float-candle {
+    position: absolute;
+    opacity: 0.55;
+    animation: float 6s ease-in-out infinite;
+  }
+  .float-candle:nth-child(1) { top: 10%; right: -10px; width: 50px; animation-delay: 0s; }
+  .float-candle:nth-child(2) { top: 50%; left: -20px; width: 38px; animation-delay: 2s; }
+  .float-candle:nth-child(3) { bottom: 10%; right: 20px; width: 42px; animation-delay: 4s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 6rem 3rem; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--bark);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--amber); }
+  .section-desc {
+    color: var(--smoke);
+    max-width: 540px;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  /* ─── PRODUCTS ─── */
+  #products { background: var(--cream); }
+
+  .products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .product-card {
+    background: var(--warm-white);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(44,31,23,0.12);
+  }
+
+  .product-image {
+    width: 100%;
+    aspect-ratio: 3/3.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-image-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .product-candle-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .p-flame {
+    width: 10px; height: 16px;
+    background: linear-gradient(to top, #E6A855, rgba(255,230,100,0.4));
+    border-radius: 50% 50% 30% 30%;
+    margin-bottom: 2px;
+    animation: flicker 2s ease-in-out infinite;
+  }
+
+  .p-wick {
+    width: 1.5px; height: 12px;
+    background: var(--charcoal);
+    margin-bottom: 0;
+  }
+
+  .p-body {
+    border-radius: 3px 3px 5px 5px;
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--amber);
+    color: var(--warm-white);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1px;
+    font-family: var(--font-body);
+  }
+
+  .product-info {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(92,61,46,0.08);
+  }
+
+  .product-scent {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 0.4rem;
+  }
+
+  .product-name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--bark);
+    margin-bottom: 0.4rem;
+  }
+
+  .product-desc {
+    font-size: 0.88rem;
+    color: var(--smoke);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--bark);
+  }
+
+  .add-btn {
+    background: transparent;
+    border: 1px solid var(--bark);
+    color: var(--bark);
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: var(--font-body);
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+  .add-btn:hover { background: var(--bark); color: var(--cream); }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--warm-white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #about::before {
+    content: '"';
+    position: absolute;
+    top: -2rem;
+    left: -1rem;
+    font-family: var(--font-display);
+    font-size: 20rem;
+    color: rgba(200,133,58,0.05);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-frame {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 4/5;
+    background: var(--cream);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 12px 16px 48px rgba(44,31,23,0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-frame-inner {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    padding: 2rem;
+  }
+
+  .mini-candle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mini-flame { width: 7px; height: 11px; background: linear-gradient(to top, #E6A855, rgba(255,230,100,0.4)); border-radius: 50% 50% 30% 30%; animation: flicker 2.5s ease-in-out infinite; }
+  .mini-wick { width: 1px; height: 8px; background: var(--charcoal); }
+  .mini-body { border-radius: 2px 2px 4px 4px; }
+
+  .about-accent {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    width: 120px;
+    height: 120px;
+    border: 2px solid var(--blush);
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  .about-tag {
+    position: absolute;
+    bottom: 2rem;
+    left: -1.5rem;
+    background: var(--bark);
+    color: var(--cream);
+    padding: 0.8rem 1.2rem;
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-style: italic;
+    box-shadow: 4px 4px 16px rgba(44,31,23,0.2);
+  }
+
+  .about-text {}
+
+  .values-list {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .value-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .value-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(200,133,58,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 0.1rem;
+  }
+
+  .value-item h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--bark);
+    margin-bottom: 0.2rem;
+  }
+
+  .value-item p {
+    font-size: 0.88rem;
+    color: var(--smoke);
+    line-height: 1.6;
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials { background: var(--bark); color: var(--cream); position: relative; overflow: hidden; }
+
+  #testimonials::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(200,133,58,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  #testimonials .section-title { color: var(--cream); }
+  #testimonials .section-label { color: var(--amber-light); }
+
+  .testimonials-header { margin-bottom: 3.5rem; }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .testimonial-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    padding: 2rem;
+    transition: background 0.3s;
+  }
+  .testimonial-card:hover { background: rgba(255,255,255,0.1); }
+
+  .testimonial-stars {
+    color: var(--amber-light);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .testimonial-quote {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: rgba(245,239,224,0.9);
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--bark);
+    font-style: italic;
+    background: var(--blush);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: 0.03em;
+  }
+
+  .author-loc {
+    font-size: 0.78rem;
+    color: var(--smoke);
+    margin-top: 0.1rem;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--cream); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info {}
+
+  .contact-details {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--warm-white);
+    border: 1px solid rgba(92,61,46,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-item h4 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--bark);
+    margin-bottom: 0.2rem;
+  }
+
+  .contact-item p {
+    font-size: 0.88rem;
+    color: var(--smoke);
+  }
+
+  /* Form */
+  .contact-form {
+    background: var(--warm-white);
+    padding: 2.5rem;
+    border-radius: 2px;
+    box-shadow: 0 8px 32px rgba(44,31,23,0.08);
+  }
+
+  .form-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--bark);
+    margin-bottom: 0.4rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.88rem;
+    color: var(--smoke);
+    margin-bottom: 2rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bark-light);
+    margin-bottom: 0.4rem;
+    font-family: var(--font-body);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--cream);
+    border: 1px solid rgba(92,61,46,0.18);
+    border-radius: 2px;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(200,133,58,0.12);
+  }
+
+  .form-group textarea { height: 110px; resize: vertical; }
+
+  .form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bark);
+    color: var(--cream);
+    border: none;
+    border-radius: 2px;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--bark-light); }
+
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    color: var(--sage);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--charcoal);
+    color: rgba(245,239,224,0.7);
+    padding: 3rem;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  footer .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--cream);
+    font-style: italic;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  footer p { margin-bottom: 0.3rem; }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 1.5rem 0;
+  }
+
+  .footer-links a {
+    color: rgba(245,239,224,0.6);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--amber-light); }
+
+  .footer-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(245,239,224,0.2);
+    margin: 1.5rem auto;
+  }
+
+  /* ─── FADE IN ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-content { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 2rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .product-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .products-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo"><span>Aurabloom</span> Creations</a>
+  <ul class="nav-links">
+    <li><a href="#products">Shop</a></li>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="drip-decoration"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Handmade with love</p>
+      <h1 class="hero-title">Light up your<br><em>every moment</em></h1>
+      <p class="hero-subtitle">Hand-poured, small-batch candles crafted from natural soy wax and the finest fragrance oils — bringing warmth and calm into your home.</p>
+      <div class="hero-ctas">
+        <a href="#products" class="btn-primary">Shop Collection</a>
+        <a href="#about" class="btn-secondary">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="candle-scene">
+        <div class="candle-glow"></div>
+        <div class="candle-body">
+          <div class="candle-label">Aurabloom<br>—<br>Rustic<br>Amber</div>
+        </div>
+        <div class="candle-wick"></div>
+        <div class="flame"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-inner">
+    <div class="products-header">
+      <div>
+        <p class="section-label">Our collection</p>
+        <h2 class="section-title">Crafted for<br><em>every mood</em></h2>
+      </div>
+      <p class="section-desc" style="max-width:340px;">Each candle is hand-poured in small batches, using only natural soy wax and phthalate-free fragrance oils.</p>
+    </div>
+
+    <div class="product-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card fade-in">
+        <div class="product-image" style="background: #F2E8D4;">
+          <div class="product-image-bg" style="background: radial-gradient(ellipse at 50% 80%, rgba(200,133,58,0.25) 0%, transparent 65%);"></div>
+          <div class="product-candle-wrap">
+            <div class="p-flame" style="animation-delay:0s;"></div>
+            <div class="p-wick"></div>
+            <div class="p-body" style="width:64px; height:140px; background: linear-gradient(135deg, #E8D5B5 0%, #CDB990 100%);"></div>
+          </div>
+        </div>
+        <div class="product-badge">Bestseller</div>
+        <div class="product-info">
+          <p class="product-scent">Woody · Warm</p>
+          <h3 class="product-name">Rustic Amber</h3>
+          <p class="product-desc">Rich amber, cedarwood, and a whisper of vanilla — like an evening by the fire.</p>
+          <div class="product-footer">
+            <span class="product-price">₹ 649</span>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card fade-in" style="transition-delay:0.15s">
+        <div class="product-image" style="background: #EAF0E8;">
+          <div class="product-image-bg" style="background: radial-gradient(ellipse at 50% 80%, rgba(138,158,122,0.3) 0%, transparent 65%);"></div>
+          <div class="product-candle-wrap">
+            <div class="p-flame" style="animation-delay:0.4s;"></div>
+            <div class="p-wick"></div>
+            <div class="p-body" style="width:72px; height:120px; background: linear-gradient(135deg, #D4E2CB 0%, #B4C9A8 100%);"></div>
+          </div>
+        </div>
+        <div class="product-badge" style="background:var(--sage);">New</div>
+        <div class="product-info">
+          <p class="product-scent">Herbal · Fresh</p>
+          <h3 class="product-name">Forest Sage</h3>
+          <p class="product-desc">Eucalyptus, sage, and white tea — a breath of fresh mountain air indoors.</p>
+          <div class="product-footer">
+            <span class="product-price">₹ 599</span>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card fade-in" style="transition-delay:0.3s">
+        <div class="product-image" style="background: #F5ECF0;">
+          <div class="product-image-bg" style="background: radial-gradient(ellipse at 50% 80%, rgba(210,140,160,0.25) 0%, transparent 65%);"></div>
+          <div class="product-candle-wrap">
+            <div class="p-flame" style="animation-delay:0.8s;"></div>
+            <div class="p-wick"></div>
+            <div class="p-body" style="width:56px; height:160px; background: linear-gradient(135deg, #EDD5DC 0%, #D8A8B5 100%);"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-scent">Floral · Soft</p>
+          <h3 class="product-name">Rose Dusk</h3>
+          <p class="product-desc">Damask rose, peony, and musk — gentle and romantic for quiet evenings.</p>
+          <div class="product-footer">
+            <span class="product-price">₹ 699</span>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual fade-in">
+        <div class="about-frame">
+          <div class="about-frame-inner">
+            <div class="mini-candle">
+              <div class="mini-flame" style="animation-delay:0s;"></div>
+              <div class="mini-wick"></div>
+              <div class="mini-body" style="width:38px;height:80px;background:linear-gradient(135deg,#E8D5B5,#CDB990);border-radius:2px 2px 4px 4px;"></div>
+            </div>
+            <div class="mini-candle">
+              <div class="mini-flame" style="animation-delay:0.6s;"></div>
+              <div class="mini-wick"></div>
+              <div class="mini-body" style="width:34px;height:110px;background:linear-gradient(135deg,#D4E2CB,#B4C9A8);border-radius:2px 2px 4px 4px;"></div>
+            </div>
+            <div class="mini-candle">
+              <div class="mini-flame" style="animation-delay:1.2s;"></div>
+              <div class="mini-wick"></div>
+              <div class="mini-body" style="width:30px;height:68px;background:linear-gradient(135deg,#EDD5DC,#D8A8B5);border-radius:2px 2px 4px 4px;"></div>
+            </div>
+          </div>
+          <p style="font-family:var(--font-display);font-style:italic;font-size:0.92rem;color:var(--smoke);padding:0 2rem 1.5rem;text-align:center;line-height:1.6;">Every pour is<br>made with intention.</p>
+        </div>
+        <div class="about-accent"></div>
+        <div class="about-tag">Est. 2021 · Bangalore</div>
+      </div>
+
+      <div class="about-text fade-in" style="transition-delay:0.2s">
+        <p class="section-label">Our story</p>
+        <h2 class="section-title">Made from <em>scratch,</em><br>made with care</h2>
+        <p style="color:var(--smoke);margin-top:1.2rem;line-height:1.8;">What started as a weekend hobby in a small kitchen has grown into something truly special. Aurabloom was born from a love of slow evenings, warm light, and the way a single candle can change the mood of an entire room.</p>
+        <p style="color:var(--smoke);margin-top:0.8rem;line-height:1.8;">Every candle is hand-poured in small batches, using natural soy wax, cotton wicks, and fragrance blends we've spent months perfecting.</p>
+
+        <div class="values-list">
+          <div class="value-item">
+            <div class="value-icon">🌿</div>
+            <div>
+              <h4>100% Natural Soy Wax</h4>
+              <p>Clean-burning, longer-lasting, and better for your home.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🤲</div>
+            <div>
+              <h4>Hand-poured in Small Batches</h4>
+              <p>Every candle gets our full attention — never mass produced.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🧡</div>
+            <div>
+              <h4>Thoughtful Gifting</h4>
+              <p>Beautiful packaging ready to gift — just as you receive it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="testimonials-header fade-in">
+      <p class="section-label">What people say</p>
+      <h2 class="section-title">Loved by <em>candle lovers</em></h2>
+    </div>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"The Rustic Amber is absolutely divine. My entire apartment smells like a cozy cabin. I've ordered three times now and I'm not stopping."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">P</div>
+          <div>
+            <p class="author-name">Priya Menon</p>
+            <p class="author-loc">Bangalore</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card fade-in" style="transition-delay:0.15s">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Gifted the Rose Dusk to my mum on her birthday and she immediately asked me where I got it from. The packaging alone is gorgeous."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div>
+            <p class="author-name">Shreya Iyer</p>
+            <p class="author-loc">Mumbai</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card fade-in" style="transition-delay:0.3s">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Forest Sage is my new favourite. Burns cleanly for hours and the scent isn't overwhelming — just perfectly balanced. Will definitely be back."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <p class="author-name">Arjun Nair</p>
+            <p class="author-loc">Chennai</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <p class="section-label">Get in touch</p>
+        <h2 class="section-title">We'd love to<br><em>hear from you</em></h2>
+        <p class="section-desc" style="margin-top:1rem;">Whether you have a question about an order, want a custom scent, or just want to say hello — we're here.</p>
+
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-icon">✉</div>
+            <div>
+              <h4>Email us</h4>
+              <p>hello@aurabloomcreations.in</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div>
+              <h4>WhatsApp</h4>
+              <p>+91 98765 43210</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📦</div>
+            <div>
+              <h4>Custom Orders</h4>
+              <p>Bulk & gifting enquiries welcome</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form fade-in" style="transition-delay:0.2s">
+        <h3 class="form-title">Send a message</h3>
+        <p class="form-subtitle">We'll get back to you within 24 hours.</p>
+
+        <div id="contact-form-inner">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First name</label>
+              <input type="text" placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label>Last name</label>
+              <input type="text" placeholder="Last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com">
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select>
+              <option>General enquiry</option>
+              <option>Order question</option>
+              <option>Custom / bulk order</option>
+              <option>Feedback</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us how we can help..."></textarea>
+          </div>
+          <button class="form-submit" onclick="submitForm()">Send Message</button>
+        </div>
+        <div class="form-success" id="form-success">
+          🕯️ Thank you! We'll be in touch shortly.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Aurabloom Creations</span>
+  <p>Handmade candles, poured with love in Bangalore, India.</p>
+  <ul class="footer-links">
+    <li><a href="#products">Shop</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">Instagram</a></li>
+  </ul>
+  <div class="footer-divider"></div>
+  <p>© 2025 Aurabloom Creations. All rights reserved.</p>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Form submit
+  function submitForm() {
+    document.getElementById('contact-form-inner').style.display = 'none';
+    const success = document.getElementById('form-success');
+    success.style.display = 'block';
+  }
+
+  // Add to cart feedback
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const original = this.textContent;
+      this.textContent = 'Added ✓';
+      this.style.background = 'var(--sage)';
+      this.style.color = 'var(--cream)';
+      this.style.borderColor = 'var(--sage)';
+      setTimeout(() => {
+        this.textContent = original;
+        this.style.background = '';
+        this.style.color = '';
+        this.style.borderColor = '';
+      }, 2000);
+    });
+  });
+</script>
+</body>
+</html>
